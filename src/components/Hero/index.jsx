@@ -6,7 +6,7 @@ const Hero = ()=>{
             <div className="flex-col">
             <h1 className="text-7xl font-bold flex flex-col"><span>Exchange</span> <span>Skills,</span> <span>Grow</span>  <span>Together</span>
             </h1>
-                <CustomButton type={"button"} title={"Get Started"} onClick={()=>{}} color={"blue"} size={"3xl"} />
+                <CustomButton type={"button"} title={"Get Started"} onClick={()=>{}} color={"#0D92F4"} size={"3xl"} />
                 </div>
             <img src="src/assets/hero.jpg" alt="Hero Image" className="h-[500px] mt-8 mr-5"/>
         </main>
