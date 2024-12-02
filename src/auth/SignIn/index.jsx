@@ -1,44 +1,51 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { useState } from "react";
 import CustomButton from "../../components/CustomButton/index.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../components/Firebase";
+
+import { signOut } from "firebase/auth";
+
 
 const SignIn = () => {
     const [loading, setLoading] = useState(false);
     const methods = useForm({ mode: "onBlur" });
 
+    const navigate = useNavigate();
+
     const handleSignIn = async (data) => {
         setLoading(true);
 
         try {
-            const response = await fetch("https://your-backend-api.com/signin", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Error:", errorData);
-                alert("Sign-in failed: " + errorData.message);
-                return;
-            }
-
-            const responseData = await response.json();
-            console.log("Sign-in successful:", responseData);
+            await signInWithEmailAndPassword(auth, data.email, data.password);
             alert("Sign-in successful!");
-
-            // Redirect to dashboard or home page
-            // window.location.href = "/dashboard";
         } catch (error) {
+            if (error.code === "auth/user-not-found") {
+                // Handle specific error
+            }
             console.error("Sign-in error:", error);
-            alert("An error occurred during sign-in. Please try again.");
+            alert("User is not registered, please sign up first!");
         } finally {
             setLoading(false);
         }
     };
+
+
+
+
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            alert("You have been logged out successfully!");
+            navigate("/signin"); // Redirect to the sign-in page
+        } catch (error) {
+            console.error("Error logging out:", error.message);
+            alert("Error logging out: " + error.message);
+        }
+    };
+
 
     return (
         <div className="flex flex-col items-center justify-center h-[100svh] bg-[#F7F7F7] text-black font-body">
@@ -79,6 +86,13 @@ const SignIn = () => {
                             color="black"
                             size="18"
                             disabled={loading}
+                        />
+                       <CustomButton
+                            onClick={handleSignOut}
+                            title={"Sign Out"}
+                            color="black"
+                            size="18"
+
                         />
                     </form>
                 </FormProvider>

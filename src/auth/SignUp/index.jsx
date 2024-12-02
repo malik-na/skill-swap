@@ -4,7 +4,11 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomButton from "../../components/CustomButton/index.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {createUserWithEmailAndPassword} from "firebase/auth"
+import {auth, db} from "../../components/Firebase/index.jsx"
+import {doc, setDoc} from "firebase/firestore"
+
 
 const SignUp = () => {
     const [step, setStep] = useState(1);
@@ -26,6 +30,8 @@ const SignUp = () => {
         { value: "chinese", label: "Chinese" },
     ];
 
+    const navigate = useNavigate();
+
     const handleNext = (data) => {
         if (step < 4) setStep(step + 1);
     };
@@ -34,9 +40,27 @@ const SignUp = () => {
         if (step > 1) setStep(step - 1);
     };
 
-    const handleSubmit = (data) => {
-        console.log("Final Form Data:", { ...data, selectedDate });
-        alert("Form submitted!");
+    const handleSubmit = async (data) => {
+        const allData = {
+            ...data,
+            selectedDate: selectedDate ? selectedDate.toISOString() : null,
+        }
+
+        console.log( "Final form data" ,allData);
+
+       try {
+
+       const userCredentials = await createUserWithEmailAndPassword(auth, data.email, data.password);
+       const user = userCredentials.user;
+
+       await setDoc(doc(db, "users", user.uid), allData);
+
+       alert("User successfully created and data saved!");
+
+       navigate("/signin");
+        }catch(error){
+            alert("Error creating user: " + error.message);
+        }
     };
 
     const renderStepContent = () => {
