@@ -1,29 +1,61 @@
-import  { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
 
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignUp from "./auth/SignUp/index.jsx";
 import SignIn from "./auth/SignIn/index.jsx";
+import { AuthProvider } from "./auth/AuthContext/index.jsx";
+import Dashboard from "./pages/Dashboard/index.jsx";
+import ProtectedRoute from "./auth/ProtectedRoute/index.jsx";
+import AppLayout from "./layouts/AppLayout";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App/>,
-    },
-    {
-        path: "/signup",
-        element: <SignUp/>
-    },
-    {
-        path: "/signin",
-        element: <SignIn/>
-    }
-])
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
+  },
+  {
+    path: "/signin",
+    element: <SignIn />,
+  },
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      // {
+      //   path: "profile",
+      //   element: <Profile />,
+      // },
+      // {
+      //   path: "messages",
+      //   element: <Messages />,
+      // },
+      // {
+      //   path: "settings",
+      //   element: <Settings />,
+      // },
+    ],
+  },
+]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}/>
-  </StrictMode>,
-)
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </StrictMode>
+);

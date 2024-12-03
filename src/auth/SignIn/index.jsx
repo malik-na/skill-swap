@@ -2,30 +2,26 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useState } from "react";
 import CustomButton from "../../components/CustomButton/index.jsx";
 import {Link, useNavigate} from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../components/Firebase";
-
 import { signOut } from "firebase/auth";
+import {useAuth} from "../AuthContext/index.jsx";
 
 
 const SignIn = () => {
     const [loading, setLoading] = useState(false);
     const methods = useForm({ mode: "onBlur" });
-
     const navigate = useNavigate();
+    const { signIn } = useAuth();
+
 
     const handleSignIn = async (data) => {
         setLoading(true);
-
         try {
-            await signInWithEmailAndPassword(auth, data.email, data.password);
+            await signIn(data.email, data.password);
             alert("Sign-in successful!");
+            navigate("/dashboard"); // Replace with your target route
         } catch (error) {
-            if (error.code === "auth/user-not-found") {
-                // Handle specific error
-            }
-            console.error("Sign-in error:", error);
-            alert("User is not registered, please sign up first!");
+            alert("Error signing in: " + error.message);
         } finally {
             setLoading(false);
         }

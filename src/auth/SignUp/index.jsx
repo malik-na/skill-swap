@@ -5,15 +5,16 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomButton from "../../components/CustomButton/index.jsx";
 import {Link, useNavigate} from "react-router-dom";
-import {createUserWithEmailAndPassword} from "firebase/auth"
-import {auth, db} from "../../components/Firebase/index.jsx"
 import {doc, setDoc} from "firebase/firestore"
+import {useAuth} from "../AuthContext/index.jsx";
+import { auth, db } from "../../components/Firebase";
 
 
 const SignUp = () => {
     const [step, setStep] = useState(1);
     const [selectedDate, setSelectedDate] = useState(null);
     const methods = useForm({ mode: "onBlur" });
+    const { signUp } = useAuth();
 
     const skillOptions = [
         { value: "graphicDesign", label: "Graphic Design" },
@@ -44,21 +45,16 @@ const SignUp = () => {
         const allData = {
             ...data,
             selectedDate: selectedDate ? selectedDate.toISOString() : null,
-        }
+        };
 
-        console.log( "Final form data" ,allData);
+        try {
+            const { user } = await signUp(data.email, data.password); // Get the user object
+            await setDoc(doc(db, "users", user.uid), allData); // Save to Firestore
 
-       try {
-
-       const userCredentials = await createUserWithEmailAndPassword(auth, data.email, data.password);
-       const user = userCredentials.user;
-
-       await setDoc(doc(db, "users", user.uid), allData);
-
-       alert("User successfully created and data saved!");
-
-       navigate("/signin");
-        }catch(error){
+            alert("User successfully created and data saved!");
+            navigate("/signin");
+        } catch (error) {
+            console.error("Error during sign-up:", error);
             alert("Error creating user: " + error.message);
         }
     };
