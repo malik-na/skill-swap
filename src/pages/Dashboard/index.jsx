@@ -84,7 +84,7 @@ const Dashboard = () => {
 
   return (
     <div className="p-8">
-      <div className="bg-white p-8 rounded-lg shadow-sm">
+      <div className="profile p-8 rounded-lg shadow-lg bg-white">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Profile Overview</h1>
           {!isEditing ? (
@@ -107,7 +107,7 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={handleSave}
-                className="border-2 border-blue-600 bg-blue-600 text-black rounded-lg px-4 py-2 hover:bg-blue-700 hover:border-blue-700 transition-colors"
+                className="border-2 border-blue-600 bg-blue-600 rounded-lg px-4 py-2 hover:bg-blue-700 hover:border-blue-700 transition-colors"
               >
                 Save Changes
               </button>
@@ -215,10 +215,10 @@ const Dashboard = () => {
                     ))}
                     {(!userData.skillsOffered ||
                       userData.skillsOffered.length === 0) && (
-                      <span className="text-gray-500 italic">
-                        No skills offered yet
-                      </span>
-                    )}
+                        <span className="text-gray-500 italic">
+                          No skills offered yet
+                        </span>
+                      )}
                   </div>
                 </div>
 
@@ -237,10 +237,10 @@ const Dashboard = () => {
                     ))}
                     {(!userData.skillsNeeded ||
                       userData.skillsNeeded.length === 0) && (
-                      <span className="text-gray-500 italic">
-                        No skills needed specified
-                      </span>
-                    )}
+                        <span className="text-gray-500 italic">
+                          No skills needed specified
+                        </span>
+                      )}
                   </div>
                 </div>
               </>
@@ -248,8 +248,99 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <div className="skill-matches p-8 rounded-lg shadow-lg bg-white mt-8">
+          <h1 className="text-2xl font-bold">Skill Matches</h1>
+        <div className="flex mb-8 justify-evenly">
+          <div className="card-1 flex flex-col gap-4 p-6 rounded-lg shadow-lg items-center justify-between w-1/3 m-6 bg-gray-100">
+            <div className="flex justify-between items-center w-full">
+              <h3 className="text-xl font-semibold mb-3">John Doe</h3>
+              <p className="text-blue">85% Match</p>
+            </div>
+            <div className="flex justify-between items-center w-full">
+              <img src="" alt="location" />
+              <p>New York</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">Skills Offered:</h4>
+              <p className="bg-green text-center p-2 m-2 rounded-full">Spanish</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">Skills Needed:</h4>
+              <p className="bg-green text-center p-2 m-2 rounded-full">Spanish</p>
+            </div>
+            <button className="py-1 px-4 bg-[#000000] text-white rounded hover:opacity-90 w-full">
+              View Profile
+            </button>
+          </div>
+          <div className="card-1 flex flex-col gap-4 p-6 rounded-lg shadow-lg items-center justify-between w-1/3 m-6 bg-gray-100">
+            <div className="flex justify-between items-center w-full">
+              <h3 className="text-xl font-semibold mb-3">John Doe</h3>
+              <p className="text-blue">85% Match</p>
+            </div>
+            <div className="flex justify-between items-center w-full">
+              <img src="" alt="location" />
+              <p>New York</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">Skills Offered:</h4>
+              <p className="bg-green text-center p-2 m-2 rounded-full">Spanish</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">Skills Needed:</h4>
+              <p className="bg-green text-center p-2 m-2 rounded-full">Spanish</p>
+            </div>
+            <button className="py-1 px-4 bg-[#000000] text-white rounded hover:opacity-90 w-full">
+              View Profile
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* Add this code right after the closing div of skill-matches section */}
+<div className="recent-activity p-8 rounded-lg shadow-lg bg-white mt-8">
+  <h1 className="text-2xl font-bold">Recent Activity</h1>
+  <div className="mt-6 space-y-4">
+    <div className="activity-item flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 bg-blue rounded-full flex items-center justify-center">
+          <span className="text-white text-xl">JS</span>
+        </div>
+        <div>
+          <p className="font-semibold">Jane Smith shared a new skill</p>
+          <p className="text-gray-600 text-sm">Added Python Programming</p>
+        </div>
+      </div>
+      <span className="text-gray-500 text-sm">2 hours ago</span>
     </div>
-  );
+
+    <div className="activity-item flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 bg-green rounded-full flex items-center justify-center">
+          <span className="text-white text-xl">MB</span>
+        </div>
+        <div>
+          <p className="font-semibold">Mike Brown requested a skill swap</p>
+          <p className="text-gray-600 text-sm">Web Development for Spanish</p>
+        </div>
+      </div>
+      <span className="text-gray-500 text-sm">5 hours ago</span>
+    </div>
+
+    <div className="activity-item flex items-center justify-between p-4 bg-gray-100 rounded-lg">
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 bg-purple rounded-full flex items-center justify-center">
+          <span className="text-white text-xl">AL</span>
+        </div>
+        <div>
+          <p className="font-semibold">Amy Lee accepted your request</p>
+          <p className="text-gray-600 text-sm">UI/UX Design sessions scheduled</p>
+        </div>
+      </div>
+      <span className="text-gray-500 text-sm">1 day ago</span>
+    </div>
+  </div>
+</div>
+    </div>
+  ); 
 };
 
 export default Dashboard;

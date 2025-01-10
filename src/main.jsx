@@ -10,6 +10,7 @@ import { AuthProvider } from "./auth/AuthContext/index.jsx";
 import Dashboard from "./pages/Dashboard/index.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute/index.jsx";
 import AppLayout from "./layouts/AppLayout";
+import MyMatches from "./pages/MyMatches/index.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "my-matches",
+        element: <MyMatches />,
       },
       // {
       //   path: "profile",
