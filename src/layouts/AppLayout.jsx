@@ -4,7 +4,7 @@ import TopBar from "../components/TopBar";
 
 const AppLayout = () => {
   return (
-    <div className="flex h-screen bg-gray-light">
+    <div className="flex h-screen bg-white">
       {/* Sidebar */}
       <Sidebar />
 
